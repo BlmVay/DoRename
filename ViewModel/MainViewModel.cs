@@ -65,7 +65,7 @@ namespace do9Rename.ViewModel
         }
 
         /// <summary>
-        /// 是否在替换时使用正则
+        /// 是否在替换时使用正则1
         /// </summary>
         public bool IsUsingRegex
         {
