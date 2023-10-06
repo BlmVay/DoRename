@@ -1,4 +1,4 @@
-# batch-rename-wpf
+# DoRename
 基于：【batch-rename-wpfc】仓库改写的，增加了递增数字的功能。
 
 
