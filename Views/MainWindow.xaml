@@ -31,6 +31,8 @@
             <MenuItem Header="关于">
                 <MenuItem Header="Bug反馈" Command="{Binding Path=ReferenceCommand}"/>
             </MenuItem>
+            <MenuItem Header="清空列表" Command="{Binding Path=ClearCommand}">
+            </MenuItem>
         </Menu>
 
         <Grid Grid.Row="1" Margin="10">
