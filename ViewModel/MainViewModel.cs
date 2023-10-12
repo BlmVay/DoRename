@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -112,7 +113,7 @@ namespace do9Rename.ViewModel
         /// <summary>
         /// 原文件名
         /// </summary>
-        public ObservableCollection<FileInfo> OldNames { get; }
+        public ObservableCollection<FileInfo> OldNames { get; private set; }
 
         /// <summary>
         /// 新文件名
@@ -249,6 +250,8 @@ namespace do9Rename.ViewModel
 
         public ICommand AddNumberSuffix { get; set; }
 
+        public DragEventHandler DragFilesCommand { get; set; }
+
         #endregion
 
         public MainViewModel()
@@ -258,6 +261,25 @@ namespace do9Rename.ViewModel
             _undos = new ObservableOrderStack<IRenameCommand>();
             _removeExt = new RemoveExtCommand();
             _appendExt = new AppendExtCommand();
+
+            DragFilesCommand += new DragEventHandler((o, e) => {
+                // 获取拖入的对象
+                if (e.Data.GetData(DataFormats.FileDrop) is string[] files)
+                {
+                    // 如果是文件夹
+                    if (Directory.Exists(files[0]))
+                    {
+                        var dir = new DirectoryInfo(files[0]);
+                        AddFilesToOldList(dir.GetFiles());
+                        MessageText = $"已添加目录{dir.FullName}";
+                    }
+                    else
+                    {
+                        var fs = files.ToList();
+                        AddFilesToOldList(files.Select(f=>new FileInfo(f)).ToArray());
+                    }
+                }
+            });
 
             // 初始化Command对象
             RegisterCommands();
@@ -338,20 +360,7 @@ namespace do9Rename.ViewModel
                 MessageText = "没有选择文件";
                 return;
             }
-
-#if DEBUG
-            Console.WriteLine("Added files:");
-#endif
-            var count = dialog.FileNames.Count();
-            foreach (var fName in dialog.FileNames)
-            {
-#if DEBUG
-                Console.WriteLine(fName);
-#endif
-                OldNames.Add(new FileInfo(fName));
-            }
-
-            MessageText = count > 1 ? $"已添加{count}个文件" : $"已添加文件{dialog.FileName}";
+            AddFilesToOldList(dialog.FileNames.Select(f=>new FileInfo(f)).ToArray());
         }
 
         /// <summary>
@@ -382,13 +391,33 @@ namespace do9Rename.ViewModel
             Console.WriteLine("Add dir: {0}", dir.FullName);
 #endif
 
-            foreach (var fInf in dir.GetFiles())
-            {
-                OldNames.Add(fInf);
-            }
+            AddFilesToOldList(dir.GetFiles());
 
             MessageText = $"已添加目录{dir.FullName}";
         }
+
+
+        private void AddFilesToOldList(FileInfo[] files)
+        {
+
+            var fs = files.ToList();
+
+            fs = new List<FileInfo>(fs.OrderBy(f => f.Name, new FileNameComparer()));
+#if DEBUG
+            Console.WriteLine("Added files:");
+#endif
+            var count = files.Count();
+            foreach (var fName in fs)
+            {
+#if DEBUG
+                Console.WriteLine(fName);
+#endif
+                OldNames.Add(fName);
+            }
+
+            MessageText = count > 1 ? $"已添加{count}个文件" : $"已添加文件{files[0].FullName}";
+        }
+
 
         /// <summary>
         /// 获取操作后的新文件名

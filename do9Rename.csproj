@@ -82,6 +82,7 @@
     </ApplicationDefinition>
     <Compile Include="Core\AddNumberSuffixCommand.cs" />
     <Compile Include="Core\AppendExtCommand.cs" />
+    <Compile Include="Core\FileNameComparer.cs" />
     <Compile Include="Core\IModifyExtCommand.cs" />
     <Compile Include="Core\IRenameCommand.cs" />
     <Compile Include="Core\RemoveExtCommand.cs" />

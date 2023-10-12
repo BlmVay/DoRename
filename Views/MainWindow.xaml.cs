@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using do9Rename.ViewModel;
+using System;
+using System.Windows;
 
 namespace do9Rename.Views
 {
@@ -10,6 +12,14 @@ namespace do9Rename.Views
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void ListView_Drop(object sender, DragEventArgs e)
+        {
+            if (DataContext is MainViewModel viewModel)
+            {
+                viewModel.DragFilesCommand.Invoke(sender,e);
+            }
         }
     }
 }

@@ -234,7 +234,9 @@
             <ListView
                 Grid.Row="1" 
                 Grid.Column="0"
+                AllowDrop="True"
                 Margin="5"
+                DragDrop.Drop="ListView_Drop"
                 SelectedIndex="{Binding Path=SelectedIndex}"
                 ItemsSource="{Binding Path=OldNames}">
                 <ListView.ItemContainerStyle>
