@@ -183,10 +183,10 @@
                     <StackPanel Orientation="Horizontal">
                         <StackPanel.ToolTip>
                             <TextBlock>
-                                数字结尾
+                                追加数字，负数代表后往前数
                             </TextBlock>
                         </StackPanel.ToolTip>
-                        <TextBlock Margin="5,0">数字结尾</TextBlock>
+                        <TextBlock Margin="5,0">追加数字</TextBlock>
                         <Image Source="../Assets/HelpIcon.png" Width="15" Height="15"/>
                     </StackPanel>
                 </GroupBox.Header>
@@ -215,7 +215,7 @@
                             Command="{Binding Path=AddNumberSuffix}"
                             CommandParameter="REPLACE"
                             Margin="5"
-                            Content="追加数字结尾"/>
+                            Content="追加数字"/>
                 </Grid>
             </GroupBox>
         </Grid>

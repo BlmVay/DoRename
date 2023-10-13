@@ -20,6 +20,9 @@ namespace do9Rename.Core
 
         public string Execute(string input, int index)
         {
+            Console.WriteLine(insterPosition);
+            insterPosition = insterPosition < 0 ? input.Length + insterPosition + 1: insterPosition;
+            Console.WriteLine(insterPosition);
             string formattedNumber = index.ToString().PadLeft(count, '0');
             var startIndex = insterPosition <= input.Length ? insterPosition : input.Length;
             string ret = input.Insert(startIndex, formattedNumber);

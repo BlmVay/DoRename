@@ -25,9 +25,8 @@ namespace do9Rename.Core
                 return result;
             }
 
-            // 将数字部分解析为整数
-            int xNum = int.Parse(xNumPart);
-            int yNum = int.Parse(yNumPart);
+            int.TryParse(xNumPart, out int xNum);
+            int.TryParse(yNumPart, out int yNum);
 
             // 比较数字部分
             return xNum.CompareTo(yNum);

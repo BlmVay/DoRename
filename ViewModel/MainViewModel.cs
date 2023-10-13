@@ -37,9 +37,9 @@ namespace do9Rename.ViewModel
 
         private int _startNumber;
 
-        private int _numberCount;
+        private int _numberCount = 4;
 
-        private int _numberPosition;
+        private int _numberPosition = -1;
 
         private int _subSkip;
         private int _subTake;
